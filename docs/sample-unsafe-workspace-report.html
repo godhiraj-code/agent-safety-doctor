@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Agent Safety Doctor Report</title>
+  <style>
+    :root { --bg:#060812; --card:#0d1424; --text:#eef5ff; --muted:#94a3b8; --line:rgba(148,163,184,.22); --red:#fb7185; --amber:#fbbf24; --cyan:#22d3ee; --green:#34d399; font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    * { box-sizing:border-box; }
+    body { margin:0; color:var(--text); background:radial-gradient(circle at 15% 0%, rgba(251,113,133,.20), transparent 26rem), radial-gradient(circle at 90% 8%, rgba(34,211,238,.16), transparent 28rem), linear-gradient(180deg,#060812 0%,#0a1020 55%,#05070d 100%); line-height:1.55; }
+    .page { width:min(1180px, calc(100% - 40px)); margin:0 auto; padding:44px 0 70px; }
+    .topbar { display:flex; justify-content:space-between; gap:20px; align-items:center; color:var(--muted); margin-bottom:32px; }
+    .brand { font-weight:900; color:var(--text); letter-spacing:-.03em; }
+    .badge { border:1px solid var(--line); background:rgba(255,255,255,.045); border-radius:999px; padding:8px 12px; font-size:13px; }
+    .hero { display:grid; grid-template-columns:1.1fr .9fr; gap:24px; margin-bottom:22px; }
+    .panel { background:linear-gradient(180deg,rgba(17,26,45,.92),rgba(7,12,25,.94)); border:1px solid var(--line); border-radius:24px; box-shadow:0 24px 80px rgba(0,0,0,.30); }
+    .hero-main { padding:32px; }
+    .label { color:var(--cyan); text-transform:uppercase; letter-spacing:.14em; font-weight:900; font-size:12px; margin-bottom:12px; }
+    h1 { font-size:clamp(38px,6vw,74px); line-height:.93; margin:0 0 18px; letter-spacing:-.065em; }
+    h2 { font-size:clamp(26px,4vw,42px); line-height:1; margin:0 0 16px; letter-spacing:-.045em; }
+    p { color:var(--muted); margin:0 0 16px; }
+    .scorecard { padding:26px; display:flex; flex-direction:column; justify-content:space-between; }
+    .score { display:grid; place-items:center; aspect-ratio:1; border-radius:50%; width:min(240px,78vw); margin:10px auto 18px; background:conic-gradient(var(--red) 0deg, var(--red) 3.6deg, rgba(148,163,184,.18) 0deg); position:relative; box-shadow:0 0 80px rgba(251,113,133,.22); }
+    .score::after { content:""; position:absolute; inset:15px; border-radius:50%; background:#090f1d; border:1px solid var(--line); }
+    .score span { position:relative; z-index:1; font-size:64px; font-weight:1000; letter-spacing:-.08em; }
+    .metrics { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
+    .metric { background:rgba(255,255,255,.045); border:1px solid var(--line); border-radius:16px; padding:13px; text-align:center; }
+    .metric strong { display:block; font-size:23px; color:var(--text); }
+    .risk-table { overflow:auto; margin-bottom:22px; }
+    table { width:100%; border-collapse:collapse; min-width:960px; }
+    th,td { padding:14px 12px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top; }
+    th { color:#cbd5e1; font-size:12px; text-transform:uppercase; letter-spacing:.12em; background:rgba(255,255,255,.035); }
+    td { color:#dbeafe; }
+    code { color:#bae6fd; background:rgba(14,165,233,.1); border:1px solid rgba(14,165,233,.18); border-radius:7px; padding:2px 5px; }
+    .sev { display:inline-flex; border-radius:999px; padding:5px 9px; font-size:12px; font-weight:900; border:1px solid var(--line); }
+    .critical,.high { color:var(--red); background:rgba(251,113,133,.14); border-color:rgba(251,113,133,.34); }
+    .medium { color:var(--amber); background:rgba(251,191,36,.12); border-color:rgba(251,191,36,.32); }
+    .low,.info { color:var(--cyan); background:rgba(34,211,238,.12); border-color:rgba(34,211,238,.30); }
+    .grid { display:grid; grid-template-columns:repeat(2,1fr); gap:18px; }
+    .card { padding:22px; }
+    li { margin-bottom:8px; color:#dbeafe; }
+    .footer { margin-top:28px; color:var(--muted); font-size:13px; text-align:center; }
+    @media (max-width:900px) { .hero,.grid,.metrics { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="topbar"><div class="brand">Agent Safety Doctor</div><div class="badge">First-pass operational safety scan · values redacted</div></div>
+    <section class="hero">
+      <div class="panel hero-main">
+        <div class="label">AI Coding Agent Safety Report</div>
+        <h1>Unsafe agent workspace detected.</h1>
+        <p>High-risk agent execution conditions were detected. Do not allow autonomous agents near production-like tools until the high-severity items are fixed.</p>
+        <p>Workspace: <code>unsafe-agent-workspace</code></p>
+        <p>Generated from 4 scanned files, 0 skipped files, and 1065 scanned bytes.</p>
+      </div>
+      <div class="panel scorecard">
+        <div><div class="label">Safety score</div><div class="score"><span>0</span></div></div>
+        <div class="metrics"><div class="metric"><strong>11</strong><span>total</span></div><div class="metric"><strong>5</strong><span>high</span></div><div class="metric"><strong>5</strong><span>medium</span></div><div class="metric"><strong>1</strong><span>info</span></div></div>
+      </div>
+    </section>
+    <section class="panel risk-table"><table><thead><tr><th>Severity</th><th>Category</th><th>Path</th><th>Line</th><th>Evidence</th><th>Detail</th><th>Recommended fix</th></tr></thead><tbody>
+        <tr>
+          <td><span class="sev high">HIGH</span></td>
+          <td>destructive_action</td>
+          <td><code>deploy.sh</code></td>
+          <td>5</td>
+          <td>railway volumeDelete --service prod-db --yes</td>
+          <td>Risky command/API pattern found: `railway volumeDelete`.</td>
+          <td>Require explicit approval before destructive commands; add dry-run defaults and backup verification before execution.</td>
+        </tr>
+
+        <tr>
+          <td><span class="sev high">HIGH</span></td>
+          <td>destructive_action</td>
+          <td><code>deploy.sh</code></td>
+          <td>6</td>
+          <td>kubectl delete namespace production</td>
+          <td>Risky command/API pattern found: `kubectl delete`.</td>
+          <td>Require explicit approval before destructive commands; add dry-run defaults and backup verification before execution.</td>
+        </tr>
+
+        <tr>
+          <td><span class="sev high">HIGH</span></td>
+          <td>destructive_action</td>
+          <td><code>deploy.sh</code></td>
+          <td>7</td>
+          <td>terraform destroy -auto-approve</td>
+          <td>Risky command/API pattern found: `terraform destroy`.</td>
+          <td>Require explicit approval before destructive commands; add dry-run defaults and backup verification before execution.</td>
+        </tr>
+
+        <tr>
+          <td><span class="sev high">HIGH</span></td>
+          <td>destructive_action</td>
+          <td><code>mcp.json</code></td>
+          <td>9</td>
+          <td>&quot;tools&quot;: [&quot;projectRead&quot;, &quot;volumeDelete&quot;, &quot;deploymentWrite&quot;]</td>
+          <td>Risky command/API pattern found: `volumeDelete`.</td>
+          <td>Require explicit approval before destructive commands; add dry-run defaults and backup verification before execution.</td>
+        </tr>
+
+        <tr>
+          <td><span class="sev high">HIGH</span></td>
+          <td>secrets_exposure</td>
+          <td><code>prod.tokens.txt</code></td>
+          <td></td>
+          <td></td>
+          <td>Secret/credential-looking file is present inside an agent-accessible workspace.</td>
+          <td>Move real secrets outside the agent workspace; commit only .env.example-style placeholders; scope tokens to least privilege.</td>
+        </tr>
+
+        <tr>
+          <td><span class="sev medium">MEDIUM</span></td>
+          <td>mcp_server_risk</td>
+          <td><code>mcp.json</code></td>
+          <td></td>
+          <td>server=github-write</td>
+          <td>MCP server `github-write` appears to expose write/admin/destructive capabilities.</td>
+          <td>Split this MCP server into read-only and write-capable profiles; require approval for write/delete/admin tools.</td>
+        </tr>
+
+        <tr>
+          <td><span class="sev medium">MEDIUM</span></td>
+          <td>mcp_tool_surface</td>
+          <td><code>mcp.json</code></td>
+          <td></td>
+          <td></td>
+          <td>MCP/tooling config appears to expose broad or write-capable tools.</td>
+          <td>Inventory each MCP tool, separate read/write scopes, and add policy checks before write/delete/admin tools run.</td>
+        </tr>
+
+        <tr>
+          <td><span class="sev medium">MEDIUM</span></td>
+          <td>missing_policy</td>
+          <td><code>.</code></td>
+          <td></td>
+          <td></td>
+          <td>No approval/human-in-the-loop policy language found.</td>
+          <td>Add AGENT_SAFETY.md defining which actions require explicit human approval.</td>
+        </tr>
+
+        <tr>
+          <td><span class="sev medium">MEDIUM</span></td>
+          <td>missing_rollback</td>
+          <td><code>.</code></td>
+          <td></td>
+          <td></td>
+          <td>No backup/rollback/restore policy language found.</td>
+          <td>Document restore steps and verify backups before allowing agents near production data or infra.</td>
+        </tr>
+
+        <tr>
+          <td><span class="sev medium">MEDIUM</span></td>
+          <td>missing_version_control</td>
+          <td><code>.</code></td>
+          <td></td>
+          <td></td>
+          <td>Workspace is not a Git repository.</td>
+          <td>Use version control before allowing coding agents to mutate files; require clean diff review before apply/deploy.</td>
+        </tr>
+
+        <tr>
+          <td><span class="sev info">INFO</span></td>
+          <td>mcp_detected</td>
+          <td><code>.</code></td>
+          <td></td>
+          <td></td>
+          <td>MCP/tooling references detected; runtime permissions should be explicitly reviewed.</td>
+          <td>Create a tool inventory with owner, scope, credential source, allowed actions, and approval requirement.</td>
+        </tr></tbody></table></section>
+    <section class="grid"><article class="panel card"><div class="label">Top fixes</div><ol><li>Move real credentials out of agent-accessible workspaces; keep only examples/placeholders in repo and rotate any exposed real values.</li>
+<li>Require explicit approval before destructive commands; add dry-run defaults and backup verification before execution.</li>
+<li>Create a tool/MCP inventory with read/write/delete scope, credential source, and owner.</li>
+<li>Require clean Git state before agent runs and diff review after agent runs.</li>
+<li>Document approval, backup, rollback, and restore steps before letting agents interact with production data or infrastructure.</li></ol></article><article class="panel card"><div class="label">Postmortem starter</div><ul><li>Incident title, date/time, and responsible agent/tool.</li><li>Intended task vs actual behavior.</li><li>Commands/tool calls executed.</li><li>Files, services, and data affected.</li><li>Root cause, missing guardrail, preventive control, owner/date.</li></ul></article></section>
+    <div class="footer">Generated by agent-safety-doctor. This is not a full penetration test, compliance audit, or guarantee of agent safety.</div>
+  </div>
+</body>
+</html>

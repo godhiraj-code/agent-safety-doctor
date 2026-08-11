@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "agent-safety-doctor"
+version = "0.1.0"
+description = "Local-first safety scanner and incident report generator for AI coding agent workspaces."
+requires-python = ">=3.11"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Dhiraj Das" }]
+keywords = ["ai-agents", "mcp", "security", "developer-tools", "cli"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Security",
+    "Topic :: Software Development :: Quality Assurance",
+]
+
+[project.urls]
+Homepage = "https://github.com/godhiraj-code/agent-safety-doctor"
+Documentation = "https://github.com/godhiraj-code/agent-safety-doctor#readme"
+Repository = "https://github.com/godhiraj-code/agent-safety-doctor"
+Issues = "https://github.com/godhiraj-code/agent-safety-doctor/issues"
+
+[project.scripts]
+agent-safety-doctor = "agent_safety_doctor.cli:main"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

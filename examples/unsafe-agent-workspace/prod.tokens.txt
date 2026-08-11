@@ -1,0 +1,4 @@
+# This is intentionally unsafe sample data for scanner demonstration.
+# Do not use real secrets here.
+RAILWAY_API_TOKEN=fake_demo_token_do_not_use
+PROD_DATABASE_URL=postgres://demo:demo@example.invalid/prod

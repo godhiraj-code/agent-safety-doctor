@@ -1,0 +1,17 @@
+{
+  "mcpServers": {
+    "railway-admin": {
+      "command": "npx",
+      "args": ["-y", "@demo/railway-mcp"],
+      "env": {
+        "RAILWAY_TOKEN_FILE": "./prod.tokens.txt"
+      },
+      "tools": ["projectRead", "volumeDelete", "deploymentWrite"]
+    },
+    "github-write": {
+      "command": "node",
+      "args": ["./github-mcp.js"],
+      "tools": ["repoRead", "issueWrite", "pullRequestWrite", "admin"]
+    }
+  }
+}

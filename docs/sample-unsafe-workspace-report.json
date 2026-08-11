@@ -1,0 +1,131 @@
+{
+  "counts": {
+    "critical": 0,
+    "high": 5,
+    "info": 1,
+    "low": 0,
+    "medium": 5,
+    "total": 11
+  },
+  "findings": [
+    {
+      "category": "destructive_action",
+      "detail": "Risky command/API pattern found: `railway volumeDelete`.",
+      "evidence": "railway volumeDelete --service prod-db --yes",
+      "fix": "Require explicit approval before destructive commands; add dry-run defaults and backup verification before execution.",
+      "id": "destructive_action:deploy.sh:5",
+      "line": 5,
+      "path": "deploy.sh",
+      "rule_id": "commands.destructive",
+      "severity": "high"
+    },
+    {
+      "category": "destructive_action",
+      "detail": "Risky command/API pattern found: `kubectl delete`.",
+      "evidence": "kubectl delete namespace production",
+      "fix": "Require explicit approval before destructive commands; add dry-run defaults and backup verification before execution.",
+      "id": "destructive_action:deploy.sh:6",
+      "line": 6,
+      "path": "deploy.sh",
+      "rule_id": "commands.destructive",
+      "severity": "high"
+    },
+    {
+      "category": "destructive_action",
+      "detail": "Risky command/API pattern found: `terraform destroy`.",
+      "evidence": "terraform destroy -auto-approve",
+      "fix": "Require explicit approval before destructive commands; add dry-run defaults and backup verification before execution.",
+      "id": "destructive_action:deploy.sh:7",
+      "line": 7,
+      "path": "deploy.sh",
+      "rule_id": "commands.destructive",
+      "severity": "high"
+    },
+    {
+      "category": "destructive_action",
+      "detail": "Risky command/API pattern found: `volumeDelete`.",
+      "evidence": "\"tools\": [\"projectRead\", \"volumeDelete\", \"deploymentWrite\"]",
+      "fix": "Require explicit approval before destructive commands; add dry-run defaults and backup verification before execution.",
+      "id": "destructive_action:mcp.json:9",
+      "line": 9,
+      "path": "mcp.json",
+      "rule_id": "commands.destructive",
+      "severity": "high"
+    },
+    {
+      "category": "secrets_exposure",
+      "detail": "Secret/credential-looking file is present inside an agent-accessible workspace.",
+      "fix": "Move real secrets outside the agent workspace; commit only .env.example-style placeholders; scope tokens to least privilege.",
+      "id": "secrets_exposure:prod.tokens.txt",
+      "path": "prod.tokens.txt",
+      "rule_id": "secrets.filename",
+      "severity": "high"
+    },
+    {
+      "category": "mcp_server_risk",
+      "detail": "MCP server `github-write` appears to expose write/admin/destructive capabilities.",
+      "evidence": "server=github-write",
+      "fix": "Split this MCP server into read-only and write-capable profiles; require approval for write/delete/admin tools.",
+      "id": "mcp_server_risk:mcp.json",
+      "path": "mcp.json",
+      "rule_id": "mcp.server_risk",
+      "severity": "medium"
+    },
+    {
+      "category": "mcp_tool_surface",
+      "detail": "MCP/tooling config appears to expose broad or write-capable tools.",
+      "fix": "Inventory each MCP tool, separate read/write scopes, and add policy checks before write/delete/admin tools run.",
+      "id": "mcp_tool_surface:mcp.json",
+      "path": "mcp.json",
+      "rule_id": "mcp.broad_tool_surface",
+      "severity": "medium"
+    },
+    {
+      "category": "missing_policy",
+      "detail": "No approval/human-in-the-loop policy language found.",
+      "fix": "Add AGENT_SAFETY.md defining which actions require explicit human approval.",
+      "id": "missing_policy:.",
+      "path": ".",
+      "rule_id": "policy.approval_missing",
+      "severity": "medium"
+    },
+    {
+      "category": "missing_rollback",
+      "detail": "No backup/rollback/restore policy language found.",
+      "fix": "Document restore steps and verify backups before allowing agents near production data or infra.",
+      "id": "missing_rollback:.",
+      "path": ".",
+      "rule_id": "policy.rollback_missing",
+      "severity": "medium"
+    },
+    {
+      "category": "missing_version_control",
+      "detail": "Workspace is not a Git repository.",
+      "fix": "Use version control before allowing coding agents to mutate files; require clean diff review before apply/deploy.",
+      "id": "missing_version_control:.",
+      "path": ".",
+      "rule_id": "git.missing",
+      "severity": "medium"
+    },
+    {
+      "category": "mcp_detected",
+      "detail": "MCP/tooling references detected; runtime permissions should be explicitly reviewed.",
+      "fix": "Create a tool inventory with owner, scope, credential source, allowed actions, and approval requirement.",
+      "id": "mcp_detected:.",
+      "path": ".",
+      "rule_id": "mcp.detected",
+      "severity": "info"
+    }
+  ],
+  "metadata": {
+    "bytes_scanned": 1065,
+    "completed_at": "2026-08-11T17:08:33.742179+00:00",
+    "config_path": null,
+    "files_scanned": 4,
+    "files_skipped": 0,
+    "root": "unsafe-agent-workspace",
+    "started_at": "2026-08-11T17:08:33.738681+00:00"
+  },
+  "schema_version": "1.0",
+  "score": 0
+}

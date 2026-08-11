@@ -1,0 +1,23 @@
+[scanner]
+ignore_dirs = [".git", "node_modules", ".venv", "venv", "__pycache__", ".pytest_cache", "dist", "build", ".mypy_cache", ".ruff_cache"]
+ignore_globs = [
+  "*.pyc",
+  "*.png",
+  "*.jpg",
+  "*.jpeg",
+  "*.webp",
+  "*.gif",
+  "*.pdf",
+  "*.zip",
+  "*.tar",
+  "*.gz",
+  "*.sqlite",
+  "*.db",
+  "*safety-report.*",
+  "*agent-safety-report.*",
+  "docs/sample-unsafe-workspace-report.*",
+  "docs/email-drafts/*"
+]
+allow_secret_file_globs = ["*.example", ".env.example", "example.env", "examples/unsafe-agent-workspace/prod.tokens.txt"]
+max_file_bytes = 300000
+scan_tests = false

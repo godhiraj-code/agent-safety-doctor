@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import os
 import re
+import stat
 import subprocess
 from collections.abc import Iterable
 from pathlib import Path
@@ -134,10 +135,15 @@ def scan_workspace(root: Path, config: ScannerConfig | None = None, display_root
 
 
 def iter_candidate_files(root: Path, config: ScannerConfig, metadata) -> Iterable[Path]:
+    ignored_dirs = set(config.ignore_dirs)
     for base, dirs, files in os.walk(root):
         base_path = Path(base)
-        dirs[:] = [d for d in dirs if d not in set(config.ignore_dirs)]
+        dirs[:] = [
+            d for d in dirs
+            if d not in ignored_dirs and not should_skip(base_path / d, root, config)
+        ]
         if should_skip(base_path, root, config):
+            dirs.clear()
             metadata.files_skipped += len(files)
             continue
         for name in files:
@@ -178,10 +184,14 @@ def looks_text_candidate(path: Path) -> bool:
 
 def safe_read(path: Path, max_bytes: int) -> str | None:
     try:
-        if path.stat().st_size > max_bytes:
+        file_stat = path.stat()
+        if not stat.S_ISREG(file_stat.st_mode) or file_stat.st_size > max_bytes:
             return None
-        data = path.read_bytes()
+        with path.open("rb") as stream:
+            data = stream.read(max_bytes + 1)
     except OSError:
+        return None
+    if len(data) > max_bytes:
         return None
     if b"\x00" in data[:4096]:
         return None
